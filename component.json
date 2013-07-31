@@ -1,0 +1,21 @@
+{
+  "name": "retsly-js-auth",
+  "repo": "Retsly/retsly-js-auth",
+  "description": "A auth component built on Retsly",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js",
+    "templates/template.js"
+  ],
+  "templates": [
+    "templates/template.html"
+  ],
+  "styles": [
+    "styles/style.css"
+  ]
+}
