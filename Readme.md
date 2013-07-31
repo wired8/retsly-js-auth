@@ -11,7 +11,7 @@
 
 # retsly-js-auth
 
-  A auth component built on Retsly
+  A third party authentication and verification component built on Retsly
 
 ## Demo
   
