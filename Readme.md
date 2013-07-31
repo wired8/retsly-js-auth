@@ -26,15 +26,15 @@
 ## API
 
 The Retsly Auth Component requires a constructed instance of the Retsly
-SDK in order to correctly function. You should inject this as shown below:
+SDK. You should inject into the module as shown below:
 
 ```javascript
   var retsly = new Retsly(YOUR_API_KEY, { debug: true });
   var Auth = require('retsly-js-auth')(retsly);
   new Auth({
-    target: this.$el,
-    flow: 'register',
-    role: 'realtor',
+    target: '#register', // Target Dom Element
+    flow: 'register', // register || login
+    role: 'realtor', // realtor || developer || consumer
     authorized: function(data) {
       console.log('Authorized');
     },
