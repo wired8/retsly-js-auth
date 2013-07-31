@@ -3,6 +3,10 @@
 
   A auth component built on Retsly
 
+## Demo
+  
+  [![ScreenShot](http://content.screencast.com/users/slajax/folders/Jing/media/5ed0bf99-d34b-4728-bfd1-cc578ccee711/00000080.png)](http://screencast.com/t/DUy1Se84qdI)
+
 ## Installation
 
   Install with [component.io](http://github.com/component/component):
