@@ -19,18 +19,24 @@ if(typeof Retsly !== 'undefined') {
         },
         initialize: function(options) {
 
+          this.options = _.extend({ client_id: false, redirect_uri: false, authorized: false }, options);
+
+          if(!options.client_id)
+            throw new Error('Retsly.Views.Auth must have a client_id. {client_id:"xxxx"}');
+
+          if(!options.redirect_uri)
+            throw new Error('Retsly.Views.Auth must have a redirect_uri. {redirect_uri:"xxxx"}');
+
           if(!options.authorized)
             throw new Error('Retsly.Views.Auth must have atleast an authorized callback. {authorized:[Function]}');
 
-          if(typeof options == "undefined" || !options.target)
+          if(!options.target)
             throw new Error('Retsly.Views.Auth is a subview and must have a target: `{target:this}`');
-
-          this.options = _.extend({ flow: 'register', role: 'realtor' }, options);
 
           if(window.opener) return;
 
           var self = this;
-          retsly.io.emit('authorize', { sid: retsly.getCookie('retsly.sid') }, function(data) {
+          retsly.io.emit('authorize', function(data) {
             if(data.success && options.authorized && typeof options.authorized === 'function')
               return options.authorized(data);
 
@@ -53,9 +59,11 @@ if(typeof Retsly !== 'undefined') {
         },
         dialog: function() {
 
-          var url = 'http://'+retsly.host+'/'+this.options.flow;
-          if(this.options.role === 'realtor') url += '/realtor';
-          url += '?external=true&sid='+retsly.getCookie('retsly.sid')
+          var url = 'http://'+retsly.host+'/oauth/authorize';
+              url+= '?client_id='+this.options.client_id;
+              url+= '&redirect_uri='+this.options.redirect_uri;
+              url+= '&response_type=code';
+              url+= '&dialog=true';
 
           this.dialog = window.open(url, '',
             'location=0,status=0,scrollbars=1,menubar=0,toolbar=0,width=650,height=650,left=200,top=200'
