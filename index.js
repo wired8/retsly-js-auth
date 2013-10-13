@@ -12,7 +12,7 @@ if(typeof Retsly !== 'undefined') {
         throw new Error('Retsly.Views.Auth requires an instance of the Retsly constructor. require("retsly-js-auth")(retsly)');
 
       var Component = Backbone.View.extend({
-        tagName: 'button',
+        tagName: 'a',
         className: 'btn retsly-js-login',
         events: {
           'click': 'dialog'
@@ -34,7 +34,7 @@ if(typeof Retsly !== 'undefined') {
             if(data.success && options.authorized && typeof options.authorized === 'function')
               return options.authorized(data);
 
-            self.$el.html('<i class="icon-home"></i>&nbsp;Retsly<span>&trade;</span> Connect');
+            self.$el.html('<img src="http://'+retsly.host+'/images/retsly_dark_sm.png" />');
             self.render();
           });
           retsly.io.on('authorized', function(data) {
