@@ -75,7 +75,6 @@ module.exports = exports = (function() {
 
     return Component;
 
->>>>>>> Stashed changes
   };
 
 })();
