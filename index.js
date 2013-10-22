@@ -38,7 +38,7 @@ module.exports = exports = (function() {
           if(data.success && options.authorized && typeof options.authorized === 'function')
             return options.authorized(data);
 
-          self.$el.html('<img src="http://'+retsly.host+'/images/retsly_dark_sm.png" />');
+          self.$el.html('<img src="http://'+retsly.host+'/images/retsly_login.png" />');
           self.render();
         });
         retsly.io.on('authorized', function(data) {
