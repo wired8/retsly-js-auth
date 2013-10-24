@@ -25,16 +25,21 @@ module.exports = exports = (function() {
         if(!options.redirect_uri)
           throw new Error('Retsly Auth Component must have a redirect_uri. {redirect_uri:"xxxx"}');
 
-        if(!options.authorized)
-          throw new Error('Retsly Auth Component must have atleast an authorized callback. {authorized:[Function]}');
+        if(!options.authorized && !options.authResponse)
+          throw new Error('Retsly Auth Component must have an authorized() or authResponse() callback. {authorized:[Function], authResponse:[Function]}');
 
-        if(!options.target)
-          throw new Error('Retsly Auth Component is a subview and must have a target: `{target:this}`');
+        // A target isn't required
+        //if(!options.target)
+        //  throw new Error('Retsly Auth Component is a subview and must have a target: `{target:this}`');
 
         if(window.opener) return;
 
         var self = this;
         retsly.io.emit('authorize', function(data) {
+          // authResponse() callback is called regardless of success/failure outcome; we can rely on it's completion
+          if(options.authResponse && typeof options.authResponse === 'function')
+            options.authResponse(data.bundle);
+
           if(data.success && options.authorized && typeof options.authorized === 'function')
             return options.authorized(data);
 
