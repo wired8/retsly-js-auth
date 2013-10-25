@@ -74,7 +74,16 @@ module.exports = exports = (function() {
 
       },
       render: function() {
-        this.$el.appendTo(this.options.target);
+        var self = this;
+        if(this.options.target) this.$el.appendTo(this.options.target);
+
+        // Pass in a jQuery selector to bind element(s) to the dialogue flow
+        if(this.options.selector) {
+          $(this.options.selector).on('click', function(e) {
+            e.preventDefault();
+            self.$el.trigger('click');
+          });
+        }
       }
     });
 
