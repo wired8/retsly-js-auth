@@ -25,8 +25,8 @@ module.exports = exports = (function() {
         if(!options.redirect_uri)
           throw new Error('Retsly Auth Component must have a redirect_uri. {redirect_uri:"xxxx"}');
 
-        if(!options.authorized && !options.authResponse)
-          throw new Error('Retsly Auth Component must have an authorized() or authResponse() callback. {authorized:[Function], authResponse:[Function]}');
+        if(!options.authorized)
+          throw new Error('Retsly Auth Component must have an authorized() callback. {authorized:[Function]}');
 
         // A target isn't required
         //if(!options.target)
@@ -36,16 +36,15 @@ module.exports = exports = (function() {
 
         var self = this;
         retsly.io.emit('authorize', function(data) {
-          // authResponse() callback is called regardless of success/failure outcome; we can rely on it's completion
-          if(options.authResponse && typeof options.authResponse === 'function')
-            options.authResponse(data.bundle);
+          if(options.authorized && typeof options.authorized === 'function')
+            options.authorized(data);
 
-          if(data.success && options.authorized && typeof options.authorized === 'function')
-            return options.authorized(data);
-
-          self.$el.html('<img src="http://'+retsly.host+'/images/retsly_login.png" />');
-          self.render();
+          if( !data.success) {
+            self.$el.html('<img src="http://'+retsly.host+'/images/retsly_login.png" />');
+            self.render();
+          }
         });
+
         retsly.io.on('authorized', function(data) {
           if(options.authorized && typeof options.authorized === 'function')
             options.authorized(data)
