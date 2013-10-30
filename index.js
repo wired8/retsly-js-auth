@@ -40,11 +40,18 @@ module.exports = exports = (function() {
           if(options.authResponse && typeof options.authResponse === 'function')
             options.authResponse(data.bundle);
 
-          if(data.success && options.authorized && typeof options.authorized === 'function')
-            return options.authorized(data);
+          if( !data.success ) {
+            self.$el.html('<img src="http://'+retsly.host+'/images/retsly_login.png" />');
+            self.render();
+          }
 
-          self.$el.html('<img src="http://'+retsly.host+'/images/retsly_login.png" />');
-          self.render();
+          // Pass in a jQuery selector to bind element(s) to the dialogue flow
+          if(self.options.selector) {
+            $(self.options.selector).on('click', function(e) {
+              e.preventDefault();
+              self.$el.trigger('click');
+            });
+          }
         });
         retsly.io.on('authorized', function(data) {
           if(options.authorized && typeof options.authorized === 'function')
@@ -76,14 +83,6 @@ module.exports = exports = (function() {
       render: function() {
         var self = this;
         if(this.options.target) this.$el.appendTo(this.options.target);
-
-        // Pass in a jQuery selector to bind element(s) to the dialogue flow
-        if(this.options.selector) {
-          $(this.options.selector).on('click', function(e) {
-            e.preventDefault();
-            self.$el.trigger('click');
-          });
-        }
       }
     });
 
