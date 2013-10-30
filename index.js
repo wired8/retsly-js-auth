@@ -25,32 +25,19 @@ module.exports = exports = (function() {
         if(!options.redirect_uri)
           throw new Error('Retsly Auth Component must have a redirect_uri. {redirect_uri:"xxxx"}');
 
-        if(!options.authorized && !options.authResponse)
-          throw new Error('Retsly Auth Component must have an authorized() or authResponse() callback. {authorized:[Function], authResponse:[Function]}');
-
-        // A target isn't required
-        //if(!options.target)
-        //  throw new Error('Retsly Auth Component is a subview and must have a target: `{target:this}`');
+        if(!options.authorized)
+          throw new Error('Retsly Auth Component must have an authorized() callback. {authorized:[Function]}');
 
         if(window.opener) return;
 
         var self = this;
         retsly.io.emit('authorize', function(data) {
-          // authResponse() callback is called regardless of success/failure outcome; we can rely on it's completion
-          if(options.authResponse && typeof options.authResponse === 'function')
-            options.authResponse(data.bundle);
+          if(options.authorized && typeof options.authorized === 'function')
+            options.authorized(data);
 
-          if( !data.success ) {
+          if( !data.success) {
             self.$el.html('<img src="http://'+retsly.host+'/images/retsly_login.png" />');
             self.render();
-          }
-
-          // Pass in a jQuery selector to bind element(s) to the dialogue flow
-          if(self.options.selector) {
-            $(self.options.selector).on('click', function(e) {
-              e.preventDefault();
-              self.$el.trigger('click');
-            });
           }
         });
         retsly.io.on('authorized', function(data) {
