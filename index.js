@@ -28,6 +28,10 @@ module.exports = exports = (function() {
         if(!options.authorized)
           throw new Error('Retsly Auth Component must have an authorized() callback. {authorized:[Function]}');
 
+        // A target isn't required
+        //if(!options.target)
+        //  throw new Error('Retsly Auth Component is a subview and must have a target: `{target:this}`');
+
         if(window.opener) return;
 
         var self = this;
@@ -39,7 +43,16 @@ module.exports = exports = (function() {
             self.$el.html('<img src="http://'+retsly.host+'/images/retsly_login.png" />');
             self.render();
           }
+
+          // Pass in a jQuery selector to bind element(s) to the dialogue flow
+          if(self.options.selector) {
+            $(self.options.selector).on('click', function(e) {
+              e.preventDefault();
+              self.$el.trigger('click');
+            });
+          }
         });
+
         retsly.io.on('authorized', function(data) {
           if(options.authorized && typeof options.authorized === 'function')
             options.authorized(data)
