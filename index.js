@@ -40,7 +40,7 @@ module.exports = exports = (function() {
             options.authorized(data);
 
           if( !data.success) {
-            self.$el.html('<img src="https://'+retsly.host+'/images/retsly_login.png" />');
+            self.$el.html(retsly.host+'/images/retsly_login.png" />');
             self.render();
           }
 
@@ -69,7 +69,7 @@ module.exports = exports = (function() {
       },
       dialog: function() {
 
-        var url = 'https://'+retsly.host+'/oauth/authorize';
+        var url = retsly.host+'/oauth/authorize';
             url+= '?client_id='+this.options.client_id;
             url+= '&redirect_uri='+this.options.redirect_uri;
             url+= '&response_type=code';
