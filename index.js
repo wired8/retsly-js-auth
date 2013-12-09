@@ -33,7 +33,7 @@ module.exports = exports = (function() {
             options.authorized(data);
 
           if( !data.success) {
-            self.$el.html('<img src="https://'+retsly.host+'/images/retsly_login.png" />');
+            self.$el.html(retsly.host+'/images/retsly_login.png" />');
             self.render();
           }
 
