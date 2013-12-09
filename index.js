@@ -19,18 +19,11 @@ module.exports = exports = (function() {
 
         this.options = _.extend({ client_id: false, redirect_uri: false, authorized: false }, options);
 
-        if(!options.client_id)
-          throw new Error('Retsly Auth Component must have a client_id. {client_id:"xxxx"}');
-
         if(!options.redirect_uri)
           throw new Error('Retsly Auth Component must have a redirect_uri. {redirect_uri:"xxxx"}');
 
         if(!options.authorized)
           throw new Error('Retsly Auth Component must have an authorized() callback. {authorized:[Function]}');
-
-        // A target isn't required
-        //if(!options.target)
-        //  throw new Error('Retsly Auth Component is a subview and must have a target: `{target:this}`');
 
         if(window.opener) return;
 
@@ -69,8 +62,8 @@ module.exports = exports = (function() {
       },
       dialog: function() {
 
-        var url = 'https://'+retsly.host+'/oauth/authorize';
-            url+= '?client_id='+this.options.client_id;
+        var url = retsly.getDomain()+'/oauth/authorize';
+            url+= '?client_id='+retsly.getClient();
             url+= '&redirect_uri='+this.options.redirect_uri;
             url+= '&response_type=code';
             url+= '&dialog=true';

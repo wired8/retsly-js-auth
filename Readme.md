@@ -32,9 +32,8 @@ SDK. You should inject into the module as shown below:
   var retsly = new Retsly(YOUR_API_KEY, { debug: true });
   var Auth = require('retsly-js-auth')(retsly);
   new Auth({
-    target: '#register', // Target Dom Element
-    flow: 'register', // register || login
-    role: 'realtor', // realtor || developer || consumer
+    selector: '.login', // Target Dom Element
+    redirect_uri: 'http://website.com/callback',
     authorized: function(data) {
       console.log('Authorized');
     },
