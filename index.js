@@ -39,7 +39,7 @@ module.exports = exports = (function() {
 
           // Pass in a jQuery selector to bind element(s) to the dialogue flow
           if(self.options.selector) {
-            $(self.options.selector).on('click', function(e) {
+            $(document).on('click', self.options.selector, function(e) {
               e.preventDefault();
               self.$el.trigger('click');
             });
