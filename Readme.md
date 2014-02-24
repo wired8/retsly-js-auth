@@ -1,21 +1,10 @@
-<pre>
-                          ,------.        ,--.       ,--.
-                          |  .--. ',---.,-'  '-.,---.|  ,--. ,--.
-                          |  '--'.| .-. '-.  .-(  .-'|  |\  '  /
-                          |  |\  \\   --. |  | .-'  `|  | \   '
-                          `--' '--'`----' `--' `----'`--.-'  /
-                            Make Real Estate Apps in    `---'
-                               Minutes Not Months
-
-</pre>
-
 # retsly-js-auth
 
   A third party authentication and verification component built on Retsly
 
 ## Demo
-  
-  [![ScreenShot](http://content.screencast.com/users/slajax/folders/Jing/media/5ed0bf99-d34b-4728-bfd1-cc578ccee711/00000080.png)](http://screencast.com/t/DUy1Se84qdI)
+
+  [Example](https://raw.github.com/Retsly/retsly-js-auth/master/examples/example.gif)
 
 ## Installation
 
@@ -29,8 +18,10 @@ The Retsly Auth Component requires a constructed instance of the Retsly
 SDK. You should inject into the module as shown below:
 
 ```javascript
-  var retsly = new Retsly(YOUR_API_KEY, { debug: true });
-  var Auth = require('retsly-js-auth')(retsly);
+
+  var retsly = new Retsly(YOUR_API_KEY);
+  var Auth = require('retsly-auth')(retsly);
+
   new Auth({
     selector: '.login', // Target Dom Element
     redirect_uri: 'http://website.com/callback',
@@ -42,6 +33,9 @@ SDK. You should inject into the module as shown below:
     },
     verified: function(data) {
       console.log('Verified');
+    },
+    unverified: function(data) {
+      console.log('Unverified');
     }
   });
 

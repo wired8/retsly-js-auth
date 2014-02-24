@@ -3,85 +3,89 @@
  * Requires Retsly SDK (Full hosted SDK including _, $, BB)
  */
 
-module.exports = exports = (function() {
-  return function(retsly) { // Retsly Dependency Injection
+var Backbone = require('backbone');
+var Retsly = require('retsly-js-sdk');
 
-    if(!retsly || typeof retsly === 'undefined')
-      throw new Error('Retsly Auth Component requires an instance of the Retsly constructor. require("retsly-js-auth")(retsly)');
+Retsly.Auth = module.exports = exports = function(retsly) { // Retsly Dependency Injection
 
-    var Component = Backbone.View.extend({
-      tagName: 'button',
-      className: 'btn btn-default retsly-js-login',
-      events: {
-        'click': 'dialog'
-      },
-      initialize: function(options) {
+  if(!retsly || typeof retsly === 'undefined')
+    throw new Error('Retsly Auth Component requires an instance of the Retsly constructor. require("retsly-js-auth")(retsly)');
 
-        this.options = _.extend({ client_id: false, redirect_uri: false, authorized: false }, options);
+  var Component = Backbone.View.extend({
+    tagName: 'button',
+    className: 'btn btn-default retsly-js-login',
+    events: {
+      'click': 'dialog'
+    },
+    initialize: function(options) {
 
-        if(!options.redirect_uri)
-          throw new Error('Retsly Auth Component must have a redirect_uri. {redirect_uri:"xxxx"}');
+      this.options = _.extend({ client_id: false, redirect_uri: false, authorized: false }, options);
 
-        if(!options.authorized)
-          throw new Error('Retsly Auth Component must have an authorized() callback. {authorized:[Function]}');
+      if(!options.redirect_uri)
+        throw new Error('Retsly Auth Component must have a redirect_uri. {redirect_uri:"xxxx"}');
 
-        if(window.opener) return;
+      if(!options.authorized)
+        throw new Error('Retsly Auth Component must have an authorized() callback. {authorized:[Function]}');
 
-        var self = this;
-        retsly.io.emit('authorize', function(data) {
-          if(options.authorized && typeof options.authorized === 'function')
-            options.authorized(data);
+      if(window.opener) return;
 
-          if( !data.success) {
-            self.$el.html(retsly.host+'/images/retsly_login.png" />');
-            self.render();
-          }
+      var self = this;
+      retsly.io.emit('authorize', function(data) {
+        if(options.authorized && typeof options.authorized === 'function')
+          options.authorized(data);
 
-          // Pass in a jQuery selector to bind element(s) to the dialogue flow
-          if(self.options.selector) {
-            $(document).on('click', self.options.selector, function(e) {
-              e.preventDefault();
-              self.$el.trigger('click');
-            });
-          }
-        });
+        if( !data.success) {
+          self.$el.html(retsly.host+'/images/retsly_login.png" />');
+          self.render();
+        }
 
-        retsly.io.on('authorized', function(data) {
-          if(options.authorized && typeof options.authorized === 'function')
-            options.authorized(data)
-        });
-        retsly.io.on('activated', function(data) {
-          if(options.activated && typeof options.activated === 'function')
-            options.activated(data)
-        });
-        retsly.io.on('verified', function(data) {
-          if(options.verified && typeof options.verified === 'function')
-            options.verified(data)
-        });
+        if(self.options.selector) {
+          $(document).on('click', self.options.selector, function(e) {
+            e.preventDefault();
+            self.$el.trigger('click');
+          });
+        }
+      });
 
-      },
-      dialog: function() {
+      retsly.io.on('authorized', function(data) {
+        if(options.authorized && typeof options.authorized === 'function')
+          options.authorized(data)
+      });
+      retsly.io.on('activated', function(data) {
+        if(options.activated && typeof options.activated === 'function')
+          options.activated(data)
+      });
+      retsly.io.on('verified', function(data) {
+        if(options.verified && typeof options.verified === 'function')
+          options.verified(data)
+      });
+      retsly.io.on('unverified', function(data) {
+        if(options.unverified && typeof options.unverified === 'function')
+          options.unverified(data)
+      });
 
-        var url = retsly.getDomain()+'/oauth/authorize';
-            url+= '?client_id='+retsly.getClient();
-            url+= '&redirect_uri='+this.options.redirect_uri;
-            url+= '&response_type=code';
-            url+= '&dialog=true';
+    },
+    dialog: function() {
 
-        this.dialog = window.open(url, '',
-          'location=0,status=0,scrollbars=1,menubar=0,toolbar=0,width=650,height=650,left=200,top=200'
-        );
+      var url = retsly.getDomain()+'/oauth/authorize';
+          url+= '?client_id='+retsly.getClient();
+          url+= '&redirect_uri='+this.options.redirect_uri;
+          url+= '&response_type=code';
+          url+= '&dialog=true';
 
-      },
-      render: function() {
-        var self = this;
-        if(this.options.target) this.$el.appendTo(this.options.target);
-      }
-    });
+      this.dialog = window.open(url, '',
+        'location=0,status=0,scrollbars=1,menubar=0,toolbar=0,width=650,height=650,left=200,top=200'
+      );
 
-    return Component;
+    },
+    render: function() {
+      var self = this;
+      if(this.options.target) this.$el.appendTo(this.options.target);
+    }
+  });
 
-  };
+  return Component;
 
-})();
+};
+
 
