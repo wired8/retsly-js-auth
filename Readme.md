@@ -4,7 +4,7 @@
 
 ## Demo
 
-  [![Example](https://raw.github.com/Retsly/retsly-js-auth/master/examples/example.gif)]
+  ![Example](https://raw.github.com/Retsly/retsly-js-auth/master/examples/example.gif)
 
 ## Installation
 
