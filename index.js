@@ -4,16 +4,16 @@
  */
 
 var Backbone = require('backbone');
-var Retsly = require('retsly-js-sdk');
+var Retsly = require('retsly-sdk');
 
 Retsly.Auth = module.exports = exports = function(retsly) { // Retsly Dependency Injection
 
   if(!retsly || typeof retsly === 'undefined')
-    throw new Error('Retsly Auth Component requires an instance of the Retsly constructor. require("retsly-js-auth")(retsly)');
+    throw new Error('Retsly Auth Component requires an instance of the Retsly constructor. require("retsly-auth")(retsly)');
 
   var Component = Backbone.View.extend({
     tagName: 'button',
-    className: 'btn btn-default retsly-js-login',
+    className: 'btn btn-default retsly-login',
     events: {
       'click': 'dialog'
     },
