@@ -74,7 +74,7 @@ Retsly.Auth = module.exports = exports = function(retsly) { // Retsly Dependency
           url+= '&dialog=true';
 
       this.dialog = window.open(url, '',
-        'location=0,status=0,scrollbars=1,menubar=0,toolbar=0,width=650,height=650,left=200,top=200'
+        'location=0,status=0,scrollbars=1,menubar=0,toolbar=0,width=650,height=450,left=200,top=200'
       );
 
     },
