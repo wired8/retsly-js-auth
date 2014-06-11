@@ -30,7 +30,7 @@ Retsly.Auth = module.exports = exports = function(retsly) { // Retsly Dependency
       if(window.opener) return;
 
       var self = this;
-      retsly.io.emit('authorize', function(data) {
+      retsly.io.emit('session', function(data) {
         if(options.authorized && typeof options.authorized === 'function')
           options.authorized(data);
 
