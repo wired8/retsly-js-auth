@@ -46,6 +46,10 @@ The first time a user signs up they must pass activation and verification.
 Your app should subscribe to all three events and wait until `data.bundle` indicates
 that the user has an active status and has been verified.
 
+### Repo Owner
+---
+[@switters](https://github.com/switters)
+
 ## License
 
 (The MIT License)
