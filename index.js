@@ -18,7 +18,6 @@ Retsly.Auth = module.exports = exports = function(retsly) { // Retsly Dependency
       'click': 'dialog'
     },
     initialize: function(options) {
-
       this.options = _.extend({ client_id: false, redirect_uri: false, authorized: false }, options);
 
       if(!options.redirect_uri)
@@ -64,6 +63,20 @@ Retsly.Auth = module.exports = exports = function(retsly) { // Retsly Dependency
           options.unverified(data)
       });
 
+      window.addEventListener('message',function(event) {
+        var domain = removePort(retsly.getDomain());
+        if(event.origin !== domain || event.data.length !== 32) return;
+        retsly.setToken(event.data);
+        retsly.get('/api/v1/user/me',{}, function(res){
+          if (!res.success){
+            throw new Error(res.bundle);
+          }else{
+            if(options.authorized && typeof options.authorized === 'function')
+              options.authorized(res);
+          }
+        });
+      },false);
+
     },
     dialog: function() {
 
@@ -87,5 +100,14 @@ Retsly.Auth = module.exports = exports = function(retsly) { // Retsly Dependency
   return Component;
 
 };
+
+// remove the port # from retsly.domain() to test vs event.origin
+function removePort(domain){
+  var lastColon = domain.lastIndexOf(':');
+  if (lastColon !== -1)
+    return domain.substring(0, lastColon);
+  else
+    return domain;
+}
 
 
