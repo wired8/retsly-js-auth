@@ -2,7 +2,7 @@
   "name": "retsly-auth",
   "repo": "Retsly/retsly-js-auth",
   "description": "A third party authentication and verification component built on Retsly",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "keywords": [],
   "dependencies": {
     "components/jquery": "1.10.2",
