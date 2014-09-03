@@ -32,36 +32,14 @@ Retsly.Auth = module.exports = exports = function(retsly) { // Retsly Dependency
       retsly.io.emit('session', function(data) {
         if(options.authorized && typeof options.authorized === 'function')
           options.authorized(data);
-
-        if( !data.success) {
-          self.$el.html(retsly.host+'/images/retsly_login.png" />');
-          self.render();
-        }
-
-        if(self.options.selector) {
-          $(document).on('click', self.options.selector, function(e) {
-            e.preventDefault();
-            self.$el.trigger('click');
-          });
-        }
       });
 
-      retsly.io.on('authorized', function(data) {
-        if(options.authorized && typeof options.authorized === 'function')
-          options.authorized(data)
-      });
-      retsly.io.on('activated', function(data) {
-        if(options.activated && typeof options.activated === 'function')
-          options.activated(data)
-      });
-      retsly.io.on('verified', function(data) {
-        if(options.verified && typeof options.verified === 'function')
-          options.verified(data)
-      });
-      retsly.io.on('unverified', function(data) {
-        if(options.unverified && typeof options.unverified === 'function')
-          options.unverified(data)
-      });
+      if(self.options.selector) {
+        $(document).on('click', self.options.selector, function(e) {
+          e.preventDefault();
+          self.$el.trigger('click');
+        });
+      }
 
       window.addEventListener('message',function(event) {
         var domain = removePort(retsly.getDomain());
