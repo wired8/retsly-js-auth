@@ -65,14 +65,14 @@ Retsly.Auth = module.exports = exports = function(retsly) { // Retsly Dependency
 
       window.addEventListener('message',function(event) {
         var domain = removePort(retsly.getDomain());
-        if(event.origin !== domain || event.data.length !== 32) return;
-        retsly.setToken(event.data);
+        if(event.origin !== domain || !event.data.token || !event.data.redirectURI) return;
+        retsly.setToken(event.data.token);
         retsly.get('/api/v1/user/me',{}, function(res){
           if (!res.success){
             throw new Error(res.bundle);
           }else{
             if(options.authorized && typeof options.authorized === 'function')
-              options.authorized(res);
+              options.authorized(res, event.data.redirectURI);
           }
         });
       },false);
