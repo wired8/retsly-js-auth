@@ -41,14 +41,17 @@ Retsly.Auth = module.exports = exports = function(retsly) { // Retsly Dependency
       window.addEventListener('message',function(event) {
         var domain = removePort(retsly.getDomain());
         if(event.origin !== domain || !event.data.token || !event.data.redirectURI) return;
-        retsly.setToken(event.data.token);
+        retsly.setUserToken(event.data.token);
         isUserAuthenticated(event.data.redirectURI);
       },false);
 
       function isUserAuthenticated(redirectURI) {
+        // If we don't have a user token, do not bother to query for the user
+        if(!retsly.getUserToken() && options.authorized && typeof options.authorized === 'function')
+          return options.authorized({ success:false, status: 401, bundle: 'Unauthenticated' });
+        // If we do have a user token, lets find out who we are
         retsly.get('/api/v1/user/me',{}, function(res){
-          if (!res.success) throw new Error(res.bundle);
-          else if(options.authorized && typeof options.authorized === 'function')
+          if(options.authorized && typeof options.authorized === 'function')
             options.authorized(res, redirectURI);
         });
       }
