@@ -1,15 +1,14 @@
 {
-  "name": "retsly-auth",
+  "name": "retsly-js-auth",
   "repo": "Retsly/retsly-js-auth",
   "description": "A third party authentication and verification component built on Retsly",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "keywords": [],
   "dependencies": {
     "components/jquery": "1.10.2",
     "jashkenas/backbone": "*",
     "jashkenas/underscore": "*",
-    "retsly/retsly-js-sdk": "*",
-    "retsly/retsly-js-backbone": "*"
+    "retsly/retsly-js-sdk": "0.4.0"
   },
   "development": {},
   "license": "MIT",
