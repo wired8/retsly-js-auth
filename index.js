@@ -4,7 +4,7 @@
  */
 
 var Backbone = require('backbone');
-var Retsly = require('retsly-sdk');
+var Retsly = require('retsly-js-sdk');
 
 Retsly.Auth = module.exports = exports = function(retsly) { // Retsly Dependency Injection
 
