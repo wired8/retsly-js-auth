@@ -1,4 +1,4 @@
-# retsly-js-auth
+# retsly-js-auth [![wercker status](https://app.wercker.com/status/42df0af2803ce85acb8680f9bde1b9e4/s "wercker status")](https://app.wercker.com/project/bykey/42df0af2803ce85acb8680f9bde1b9e4)
 
   A third party authentication and verification component built on Retsly
 
