@@ -31,7 +31,7 @@ var options = {
 
 // set up
 beforeEach(function(){
-  retsly = new f;
+  retsly = new mockRetsly;
   Auth = require('retsly-js-auth')(retsly);
   $('body').append('<div class="tests"></div>');
 });
