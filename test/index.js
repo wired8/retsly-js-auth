@@ -6,11 +6,18 @@ var _ = require('underscore');
 var $ = require('jquery');
 
 // Construct a mock retsly-js-sdk isntance
-var f = function(){};
-f.getUserToken = function(){ return 'xxxxx'; };
-f.get = function () { return 'mocked response'; };
-f.getDomain = function() { return 'https://stg.rets.ly:441'; };
-f.getClient = function() { return 'yyyyyyy'; };
+var f = function(){
+  this.token = null;
+};
+f.getUserToken = function(){ return 'xxx'; };
+f.get = function (url, obj, cb) {
+  cb('mocked response');
+};
+
+f.getDomain = function() { return window.location.origin; };
+f.getClient = function() { return 'yyy'; };
+f.setUserToken = function(token) { this.token = token; };
+f.getUserToken = function() { console.log('getUserToken this.token: '); return true; };
 
 var Auth = require('retsly-js-auth')(f);
 var Backbone = require('backbone');
@@ -28,8 +35,8 @@ beforeEach(function(){
   options = {
     el: '.tests',
     redirect_uri: 'www.something.com/callback',
-    selector: '.duration',
-    authorized: function () { return 'authed.'; }
+    selector: '.arbitrary',
+    authorized: function (obj) { console.log('alert!', obj, this); }
   };
 });
 
@@ -72,4 +79,13 @@ test('include an dialog function', function() {
 test('include an render function', function() {
   var auth = new Auth(options);
   assert('function' == typeof auth.render);
+});
+
+
+suite('Auth component behaviour');
+test('- opens a dialog window on click', function() {
+  var auth = new Auth(options);
+  $('.tests').click();
+  assert(auth.dialog.opener.location.pathname === window.location.pathname);
+  auth.dialog.close();
 });
