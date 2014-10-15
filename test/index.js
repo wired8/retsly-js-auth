@@ -6,38 +6,39 @@ var _ = require('underscore');
 var $ = require('jquery');
 
 // Construct a mock retsly-js-sdk isntance
-var f = function(){
-  this.token = null;
-};
-f.getUserToken = function(){ return 'xxx'; };
-f.get = function (url, obj, cb) {
-  cb('mocked response');
-};
+var mockRetsly = function(){};
+mockRetsly.prototype.get = function (url, obj, cb) { cb('mocked response'); };
+mockRetsly.prototype.getDomain = function() { return window.location.origin + ':'; };
+mockRetsly.prototype.getClient = function() { return 'yyy'; };
+mockRetsly.prototype.setUserToken = function() {};
+mockRetsly.prototype.getUserToken = function() { return true; };
 
-f.getDomain = function() { return window.location.origin; };
-f.getClient = function() { return 'yyy'; };
-f.setUserToken = function(token) { this.token = token; };
-f.getUserToken = function() { console.log('getUserToken this.token: '); return true; };
-
-var Auth = require('retsly-js-auth')(f);
 var Backbone = require('backbone');
 Backbone.$ = window.$;
-
 var assert = require('assert');
 
 
 /**
  * Tests
  */
-var options;
+var Auth, retsly;
+var options = {
+  el: '.tests',
+  redirect_uri: 'www.something.com/callback',
+  selector: '.arbitrary',
+  authorized: function (obj) { this.selector = '.authorized-function'; }
+};
 
+// set up
 beforeEach(function(){
-  options = {
-    el: '.tests',
-    redirect_uri: 'www.something.com/callback',
-    selector: '.arbitrary',
-    authorized: function (obj) { console.log('alert!', obj, this); }
-  };
+  retsly = new f;
+  Auth = require('retsly-js-auth')(retsly);
+  $('body').append('<div class="tests"></div>');
+});
+
+// clean up
+afterEach(function(){
+  $('.tests').remove();
 });
 
 
@@ -51,14 +52,14 @@ test('cannot be required without injecting retsly', function() {
 
 suite('Auth component instantiation');
 test('will fail without passing a redirect_uri', function () {
-  var fail = delete options.redirect_uri;
+  var fail = { redirect_uri: null, authorized: function(){} }
   assert.throws(function() {
     new Auth(fail);
   });
 });
 
 test("will fail without passing an 'authorized' function", function () {
-  var fail = delete options.authorized;
+  var fail = { redirect_uri: 'www.arbitrary.com/callback', authorized: null }
   assert.throws(function() {
     new Auth(fail);
   });
@@ -82,10 +83,17 @@ test('include an render function', function() {
 });
 
 
+
 suite('Auth component behaviour');
 test('- opens a dialog window on click', function() {
   var auth = new Auth(options);
   $('.tests').click();
   assert(auth.dialog.opener.location.pathname === window.location.pathname);
-  auth.dialog.close();
+});
+
+test('- authorized function is called', function() {
+  options.authorized = function(){ this.selector = '.authorized-function'; }
+  var auth = new Auth(options);
+  window.postMessage({token: 'mockToken', redirectURI: 'message'}, window.location.origin);
+  assert(auth.options.selector === '.authorized-function');
 });
