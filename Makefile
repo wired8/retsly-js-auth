@@ -1,5 +1,5 @@
 
-build: components index.js retsly-js-auth.css template.js
+build: components index.js
 	@component build --dev
 
 template.js: template.html
@@ -8,7 +8,8 @@ template.js: template.html
 components: component.json
 	@component install --dev
 
-clean:
-	rm -fr build components template.js
+test: build
+	@mocha-phantomjs test/test.html
 
-.PHONY: clean
+clean:
+	rm -fr build components

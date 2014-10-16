@@ -71,7 +71,6 @@ Retsly.Auth = module.exports = exports = function(retsly) { // Retsly Dependency
 
     },
     render: function() {
-      var self = this;
       if(this.options.target) this.$el.appendTo(this.options.target);
     }
   });

@@ -6,21 +6,19 @@
   "keywords": [],
   "dependencies": {
     "components/jquery": "1.10.2",
-    "jashkenas/backbone": "*",
-    "jashkenas/underscore": "*",
+    "jashkenas/backbone": "1.1.2",
+    "jashkenas/underscore": "1.7.0",
     "retsly/retsly-js-sdk": "0.6.0"
   },
-  "development": {},
+  "development": {
+    "timoxley/assert": "0.0.1",
+    "visionmedia/mocha": "1.14.0"
+  },
   "license": "MIT",
   "main": "index.js",
   "scripts": [
-    "index.js",
-    "templates/template.js"
+    "index.js"
   ],
-  "templates": [
-    "templates/template.html"
-  ],
-  "styles": [
-    "styles/style.css"
-  ]
+  "templates": [],
+  "styles": []
 }
