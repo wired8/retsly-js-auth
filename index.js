@@ -38,11 +38,11 @@ Retsly.Auth = module.exports = exports = function(retsly) { // Retsly Dependency
         });
       }
 
-      window.addEventListener('message',function(event) {
-        var domain = removePort(retsly.getDomain());
-        if(event.origin !== domain || !event.data.token || !event.data.redirectURI) return;
-        retsly.setUserToken(event.data.token);
-        isUserAuthenticated(event.data.redirectURI);
+      retsly.io.on(retsly.sid+'/loggedIn', function(data) {
+        var domain = cleanDomain(data.bundle.redirectURI);
+        if(document.location.href.indexOf(domain) === -1 || !data.bundle.token || !data.bundle.redirectURI) return;
+        retsly.setUserToken(data.bundle.token);
+        isUserAuthenticated(data.bundle.redirectURI);
       },false);
 
       function isUserAuthenticated(redirectURI) {
@@ -80,12 +80,10 @@ Retsly.Auth = module.exports = exports = function(retsly) { // Retsly Dependency
 };
 
 // remove the port # from retsly.domain() to test vs event.origin
-function removePort(domain){
-  var lastColon = domain.lastIndexOf(':');
-  if (lastColon !== -1)
-    return domain.substring(0, lastColon);
-  else
-    return domain;
+function cleanDomain(domain){
+  var parts = domain.split('/');
+  var last = parts[parts.length-1];
+  return domain.replace(last,'');
 }
 
 
