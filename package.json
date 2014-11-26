@@ -1,0 +1,29 @@
+{
+  "name": "retsly-js-auth",
+  "version": "0.4.1",
+  "author": {
+    "name": "Phil Jepsen",
+    "email": "phil@rets.ly"
+  },
+  "description": "A third party authentication and verification component built on Retsly",
+  "main": "./index.js",
+  "browser": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:Retsly/retsly-js-auth.git"
+  },
+  "keywords": [
+    "retsly",
+    "browser",
+    "commonjs",
+    "browserify"
+  ],
+  "readme": "",
+  "readmeFilename": "readme.md",
+  "bugs": {
+    "url": "https://github.com/Retsly/retsly-js-auth/issues"
+  },
+  "homepage": "https://github.com/Retsly/retsly-js-auth",
+  "_id": "retsly-js-auth@0.4.1",
+  "_from": "retsly-js-auth@^0.4.1"
+}
