@@ -1,9 +1,9 @@
 {
   "name": "retsly-js-auth",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "author": {
-    "name": "Phil Jepsen",
-    "email": "phil@rets.ly"
+    "name": "Retsly",
+    "email": "support@rets.ly"
   },
   "description": "A third party authentication and verification component built on Retsly",
   "main": "./index.js",
@@ -13,22 +13,36 @@
     "url": "git@github.com:Retsly/retsly-js-auth.git"
   },
   "dependencies": {
-    "retsly-js-sdk": "git+ssh://git@github.com:wired8/retsly-js-sdk#master",
+    "retsly-js-sdk": "0.6.6",
     "underscore": "^1.7.0",
+    "jquery-browserify": "*",
     "backbone": "^1.1.2"
   },
-  "keywords": [
-    "retsly",
-    "browser",
-    "commonjs",
-    "browserify"
-  ],
-  "readme": "",
+  "devDependencies": {
+      "component": "1.0.0-rc5",
+      "mocha-phantomjs": "*",
+      "mocha": "1.14.0",
+      "mochify": "*"
+    },
+    "scripts": {
+      "start": "mochify --watch",
+      "phantom": "mochify",
+      "wd": "mochify --wd",
+      "cover": "mochify --cover",
+      "test": "npm run phantom && npm run wd && npm run cover"
+    },
+    "keywords": [
+      "retsly",
+      "sdk",
+      "browser",
+      "commonjs",
+      "browserify"
+    ],
   "readmeFilename": "readme.md",
   "bugs": {
     "url": "https://github.com/Retsly/retsly-js-auth/issues"
   },
   "homepage": "https://github.com/Retsly/retsly-js-auth",
-  "_id": "retsly-js-auth@0.4.1",
-  "_from": "retsly-js-auth@^0.4.1"
+  "_id": "retsly-js-auth@0.4.2",
+  "_from": "retsly-js-auth@^0.4.2"
 }

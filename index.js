@@ -2,9 +2,9 @@
  * Retsly Auth Component
  * Requires Retsly SDK (Full hosted SDK including _, $, BB)
  */
-
-var Backbone = require('backbone');
 var Retsly = require('retsly-js-sdk');
+var _ = require('underscore');
+var Backbone = require('backbone');
 
 Retsly.Auth = module.exports = exports = function(retsly) { // Retsly Dependency Injection
 
